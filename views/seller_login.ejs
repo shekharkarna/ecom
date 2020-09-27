@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<%- include ("partials/head") %>
+</head>
+<body>
+
+	<header>
+		<%- include ("partials/logged_out_header") %>
+	</header>
+	<h1>seller login</h1>
+	<div class="container">
+		
+		<p><%= error %></p>
+		<form method="post" action="/auth/seller_login">
+
+			<input type="text" name="username" placeholder="username" required>
+			<br><br>
+
+			<input type="submit">
+
+		</form>
+	</div>
+
+</body>
+</html>

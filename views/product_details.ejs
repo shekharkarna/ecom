@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<%- include ("partials/head") %>
+	
+</head>
+<body>
+
+	<%- include ('partials/logged_in_header') %>
+	<%- include ('partials/items_navbar') %>
+
+	<div class="row">
+
+		<div id="image" class="col-sm-4 bg-success">
+			<img src="<%= item.images %> " style="width: 300px; height: auto;">
+		</div>
+
+		<div id="description" class="col-sm-7 bg-warning">
+			<h2><%=  item.name  %></h2>
+			<p>Rating &nbsp &nbsp <%= item.rating %></p>
+		</div>
+		
+	</div>
+
+</body>
+</html>

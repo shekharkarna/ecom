@@ -1,0 +1,32 @@
+<!-- views/partials/header.ejs -->
+
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark justify-content-center">
+
+    <ul class="navbar-nav">
+        <li class="nav_item">
+            <a class="nav-link" href="/">Home</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Login</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="/auth/buyer_login"> as buyer</a>
+                <a class="dropdown-item" href="/auth/seller_login"> as seller</a>
+            </div>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Signup</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="/auth/buyer_signup">as buyer</a>
+                <a class="dropdown-item" href="/auth/seller_signup">as seller</a>
+            </div>
+        </li>
+
+    </ul>
+
+</nav>

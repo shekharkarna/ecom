@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<%- include("partials/head") %>
+</head>
+<body>
+
+	<%- include("partials/logged_in_header") %>
+
+
+
+	<form method="post" action="/products/add" style="text-align: center;">
+		<h1>Add products</h1>
+
+		<input type="text" name="item_name" placeholder="item name"> <br><br>
+
+		<input type="text" name="brand" placeholder="brand"><br><br>
+
+		<label for= "category"> Choose category: </label>
+		<select id="category" name="category">
+
+			<option value="mobile">mobile</option>
+			<option value="tv">tv</option>
+			<option value="laptop">lapotop</option>
+			
+		</select>
+		<br><br>
+
+		<input type="text" name="price" placeholder="price">
+		<br><br>
+
+		Description:<br>
+		<textarea name="description"></textarea>
+		<br><br>
+
+		<input type="text" name="quantity" placeholder="quantity"><br><br>
+
+		<input type="text" name="image" placeholder="image_link"><br><br>
+
+
+
+		<input type="submit">
+		
+	</form>
+
+</body>
+</html>

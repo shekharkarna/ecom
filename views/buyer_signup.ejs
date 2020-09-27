@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<%- include ("partials/head") %>
+</head>
+<body>
+
+	<header>
+		<%- include ("partials/logged_out_header") %>
+	</header>
+
+	<h1>buyer signup</h1>
+
+	<div class="container">
+		<p><%= error %></p>
+		<form method="post" action="/auth/buyer_signup">
+
+			<input type="text" name="username" placeholder="username" required>
+			<br><br>
+
+			<input type="text" name="mobile" placeholder="mobile" required>
+			<br><br>
+
+			<input type="text" name="email" placeholder="email" required>
+			<br><br>
+
+			<input type="text" name="address" placeholder="address" required>
+			<br><br>
+
+			<input type="submit">
+
+		</form>
+	</div>
+
+</body>
+</html>

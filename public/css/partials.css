@@ -1,0 +1,21 @@
+body{
+	background: orange;
+}
+
+button{
+	border-style: none;
+	padding-top: 5px;
+	margin-top: 10px;
+}
+
+a{
+	color: grey;
+}
+
+#login_modal_div {
+	display: none;
+}
+
+#signup_modal_div{
+	display: none;
+}
