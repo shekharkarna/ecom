@@ -10,13 +10,15 @@
 	<%- include ('partials/items_navbar') %>
 
 	<% items.forEach(item =>{ %>
+
 	<a href="/products/id/<%= item._id %>">
 		<div class="card">
 			<img class="card-img-top" src="<%= item.images%>" style="width:80%;height: 60%;">
 			<div class="card-body">
 				<h4 class="card-title"><%= item.name %></h4>
 				<p><%= item.category %></p>
-				<p><%= item.price %></p>
+				<span><%= item.price %></span>
+				<span style="margin-left: 40%;">Wishlist</span>
 			</div>
 		</div>
 	</a>
