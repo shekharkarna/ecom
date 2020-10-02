@@ -1,5 +1,5 @@
 {
-  "name": "shooperstop",
+  "name": "SStop",
   "version": "1.0.0",
   "description": "ecommerce website",
   "main": "index.js",
@@ -14,7 +14,7 @@
     "ecommerce",
     "shopping"
   ],
-  "author": "shekhar karna",
+  "author": "shekhar_karna",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/jrgenklopp/ecom/issues"
