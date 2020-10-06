@@ -11,11 +11,3 @@ button{
 a{
 	color: grey;
 }
-
-#login_modal_div {
-	display: none;
-}
-
-#signup_modal_div{
-	display: none;
-}

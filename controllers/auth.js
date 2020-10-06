@@ -13,22 +13,24 @@ function seller_login(req,res){
 			return 
 		}
 
-		Seller.findById({_id:field.username}, (err,doc)=>{
-			if(err) console.log(err)
 
-			if(doc){
-				req.session.loggedin = true;
-				req.session.username = field.username;
-				req.session.usertype = "seller";
-				let redirect_path = "/d/seller/"+field.username;
-				res.redirect(redirect_path)
-			}
-			else{
-				res.render("seller_login",{
-					error: "user doesnot exist"
-				})
-			}
-		})
+		Seller.findById({_id:field.username})
+			.exec()
+			.then(doc => {
+				if(doc){
+					req.session.loggedin = true;
+					req.session.username = field.username;
+					req.session.usertype = "seller";
+					let redirect_path = "/d/seller/"+field.username;
+					res.redirect(redirect_path)
+				}
+				else{
+					res.render("seller_login",{
+						error:"user doesnot exist"
+					})
+				}
+			})
+			.catch(err => console.log(err))
 	})
 }
 

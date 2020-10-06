@@ -5,7 +5,8 @@ var User = new Schema({
 	_id: String,
 	mobile: String,
 	email: String,
-	address: String
+	address: String,
+	wishlist: Array,
 });
 
 module.exports = mongoose.model("user",User);

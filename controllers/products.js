@@ -48,5 +48,54 @@ async function get_details(req,res){
 	})
 }
 
+function get_by_seller(req,res){
+	
+	if(req.session.loggedin && req.session.username===req.params.user && req.session.usertype == "seller"){
+		
+		var items = api.getProductBySeller(req.session.username);
+		items
+			.then(result => {
+				let user = req.params.user;
+				res.render("dashboard",{
+					name: user, items: result
+				})
+			})
+			.catch(err => console.log(err))
 
-module.exports = {add, fill_dashboard, get_details};
+	}
+	else{
+		res.redirect("/");
+		console.log("user unknown")
+	}
+}
+
+function get_by_category(req,res){
+	
+	var items = api.getProductByCategory(req.params.category);
+	items
+		.then(result => {
+			res.render("buyer_dashboard", {
+				items: result
+			})
+		})
+		.catch(err => console.log(err))
+
+}
+
+function wishlist(req,res){
+
+	console.log("wishlist received");
+	console.log(req.session.username);
+	console.log(req.params._id);
+	res.redirect("back");
+}
+
+module.exports = {
+	add, 
+	fill_dashboard,
+	get_details,
+	get_by_seller,
+	get_by_category,
+	wishlist,
+
+	};

@@ -17,6 +17,8 @@ app.set("view engine", "ejs");
 
 app.use("/",routes)
 
-app.listen(3000,()=>{
-	console.log("runing at 3000");
+var port = process.env.PORT || 3000;
+
+app.listen(port,()=>{
+	console.log(`running at ${port}`);
 })

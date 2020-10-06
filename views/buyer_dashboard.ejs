@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+	
+	
 	<%- include ("partials/head") %>
 	<link rel="stylesheet" type="text/css" href="/css/buyer_dashboard.css">
 </head>
@@ -11,19 +13,25 @@
 
 	<% items.forEach(item =>{ %>
 
-	<a href="/products/id/<%= item._id %>">
-		<div class="card">
-			<img class="card-img-top" src="<%= item.images%>" style="width:80%;height: 60%;">
-			<div class="card-body">
-				<h4 class="card-title"><%= item.name %></h4>
-				<p><%= item.category %></p>
-				<span><%= item.price %></span>
-				<span style="margin-left: 40%;">Wishlist</span>
+	
+	<div class="card">
+		<a href="/products/id/<%= item._id %> ">
+			<img class = "card-img-top" src="<%= item.images %> ">
+		</a>
+		<div class="card-body">
+			<h4 class="card-title"><%= item.name %></h4>
+			<div class="bottom-div">
+				<div class="bottom">Rs. <%= item.price %></div>
+
+				<a href="/products/wishlist/<%= item.id %>"><div data-toggle="tooltip" title="Add to wishlist" class="material-icons">shopping_cart
+					</div></a>
 			</div>
+					
 		</div>
-	</a>
+	</div>
+
 	<% }) %>
 
-
+<script type="text/javascript" src="/js/buyer_dashboard.js"></script>
 </body>
 </html>
