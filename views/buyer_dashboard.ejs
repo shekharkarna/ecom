@@ -6,7 +6,7 @@
 	<%- include ("partials/head") %>
 	<link rel="stylesheet" type="text/css" href="/css/buyer_dashboard.css">
 </head>
-<body>
+<body id= "<%= name %>">
 
 	<%- include ('partials/logged_in_header') %>
 	<%- include ('partials/items_navbar') %>
@@ -23,7 +23,7 @@
 			<div class="bottom-div">
 				<div class="bottom">Rs. <%= item.price %></div>
 
-				<a href="/products/wishlist/<%= item.id %>"><div data-toggle="tooltip" title="Add to wishlist" class="material-icons">shopping_cart
+				<a ><div data-toggle="tooltip" title="Wishlist" class="material-icons" id="<%= item.id %>" >shopping_cart
 					</div></a>
 			</div>
 					

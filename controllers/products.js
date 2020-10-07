@@ -1,6 +1,7 @@
 const formidable = require("formidable");
 const Products = require("../Models/products");
 const api = require("./api/main");
+const User = require("../Models/user");
 
 function add(req,res){
 
@@ -27,9 +28,9 @@ async function fill_dashboard(req,res){
 		let user = req.params.user;
 
 		var x = await Products.find({}).limit(0);
-		
+		console.log(req.session.username)
 		res.render("buyer_dashboard",{
-			name: "shekhar",
+			name: req.session.username,
 			items: x,
 		})
 	}
@@ -82,12 +83,28 @@ function get_by_category(req,res){
 
 }
 
-function wishlist(req,res){
+async function wishlist(req,res){
 
-	console.log("wishlist received");
-	console.log(req.session.username);
-	console.log(req.params._id);
-	res.redirect("back");
+	let doc = await User.find({_id: req.session.username})
+	let prearr = doc[0].wishlist;
+	let x = prearr.indexOf(req.params._id);
+	if(x==-1){
+		await User.updateOne({_id: req.session.username}, {$push : {wishlist: req.params._id}});
+	}
+	else{
+		await User.updateOne({_id: req.session.username}, {$pullAll: {wishlist: [req.params._id]}})
+	}
+	
+	res.redirect("back")
+
+}
+
+async function getwishlist(req,res){
+	console.log("in getwishlist")
+	let doc = await User.find({_id: req.session.username})
+	let arr = doc[0].wishlist;
+
+	res.send(arr);
 }
 
 module.exports = {
@@ -97,5 +114,5 @@ module.exports = {
 	get_by_seller,
 	get_by_category,
 	wishlist,
-
+	getwishlist,
 	};
