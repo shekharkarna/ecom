@@ -1,37 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-	
-	
 	<%- include ("partials/head") %>
 	<link rel="stylesheet" type="text/css" href="/css/buyer_dashboard.css">
 </head>
-<body id= "<%= name %>">
+<body>
 
 	<%- include ('partials/logged_in_header') %>
 	<%- include ('partials/items_navbar') %>
 
 	<% items.forEach(item =>{ %>
-
-	
-	<div class="card">
-		<a href="/products/id/<%= item._id %> ">
-			<img class = "card-img-top" src="<%= item.images %> ">
-		</a>
-		<div class="card-body">
-			<h4 class="card-title"><%= item.name %></h4>
-			<div class="bottom-div">
-				<div class="bottom">Rs. <%= item.price %></div>
-
-				<a ><div data-toggle="tooltip" title="Wishlist" class="material-icons" id="<%= item.id %>" >shopping_cart
-					</div></a>
+	<a href="/products/id/<%= item._id %>">
+		<div class="card">
+			<img class="card-img-top" src="<%= item.images%>" style="width:80%;height: 60%;">
+			<div class="card-body">
+				<h4 class="card-title"><%= item.name %></h4>
+				<p><%= item.category %></p>
+				<p><%= item.price %></p>
 			</div>
-					
 		</div>
-	</div>
-
+	</a>
 	<% }) %>
 
-<script type="text/javascript" src="/js/buyer_dashboard.js"></script>
+
 </body>
 </html>

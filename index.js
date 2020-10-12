@@ -5,7 +5,7 @@ var session = require("express-session");
 
 const app = express();
 console.log(db)
-
+debugger
 app.use(session({
 	secret: "secret",
 	resave: true,
@@ -17,8 +17,6 @@ app.set("view engine", "ejs");
 
 app.use("/",routes)
 
-var port = process.env.PORT || 3000;
-
-app.listen(port,()=>{
-	console.log(`running at ${port}`);
+app.listen(3000,()=>{
+	console.log("runing at 3000");
 })

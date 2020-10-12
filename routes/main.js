@@ -4,7 +4,7 @@ const dashboard = require("./dashboard");
 const products = require("./products");
 
 routes.get("/",(req,res)=>{
-	res.render("home");
+	res.render("index");
 });
 
 routes.use("/d", dashboard);
