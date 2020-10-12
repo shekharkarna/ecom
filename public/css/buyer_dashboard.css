@@ -32,4 +32,6 @@ body{
 	font-size: 200%;
 	display: inline-block;
 	color: grey;
+	cursor: pointer;
 }
+

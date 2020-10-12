@@ -19,4 +19,5 @@ routes.get("/:category",product.get_by_category);
 
 routes.get("/wishlist/:_id", product.wishlist);
 
+routes.get("/getwishlist/:_id", product.getwishlist);
 module.exports = routes;
