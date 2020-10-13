@@ -3,9 +3,6 @@ body{
 }
 
 .card{
-	width: 30%;
-	float: left;
-	margin-left: 3%;
 	margin-top: 10px;
 	height: 350px;
 }
