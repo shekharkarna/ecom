@@ -4,31 +4,5 @@ body{
 
 .card{
 	margin-top: 10px;
-	height: 350px;
+	height: 400px;
 }
-
-.card img{
-	max-width: 70%;
-	height: 200px;
-}
-
-.bottom{
-	display: inline-block;
-	float: left;
-}
-
-.bottom-div{
-	position: absolute;
-	bottom: 10px;
-	width: 90%;
-}
-
-.material-icons{
-	position: absolute;
-	right: 0;
-	font-size: 200%;
-	display: inline-block;
-	color: grey;
-	cursor: pointer;
-}
-
