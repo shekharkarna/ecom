@@ -5,7 +5,7 @@ var session = require("express-session");
 
 const app = express();
 console.log(db)
-debugger
+
 app.use(session({
 	secret: "secret",
 	resave: true,
