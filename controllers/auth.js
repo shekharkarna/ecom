@@ -1,6 +1,7 @@
 const formidable = require("formidable");
 const User = require("../Models/user");
 const Seller = require("../Models/seller");
+const { encrypt, decrypt } = require('./api/crypto');
 
 
 function seller_login(req,res){
@@ -14,9 +15,13 @@ function seller_login(req,res){
 		}
 
 		Seller.findById({_id:field.username}, (err,doc)=>{
-			if(err) console.log(err)
+			if(err) {
+				res.render("buyer_login",{
+					error: "User does not exist"
+				})
+			}
 
-			if(doc){
+			if(doc != null && decrypt(doc.password) == decrypt(field.password)){
 				req.session.loggedin = true;
 				req.session.username = field.username;
 				req.session.usertype = "seller";
@@ -25,7 +30,7 @@ function seller_login(req,res){
 			}
 			else{
 				res.render("seller_login",{
-					error: "user doesnot exist"
+					error: "User does not exist"
 				})
 			}
 		})
@@ -41,11 +46,15 @@ function buyer_login(req,res){
 			next(err);
 			return;
 		}
-
+		
 		User.findById({_id:field.username}, (err,doc) => {
-			if(err) console.log(err);
+			if(err) {
+				res.render("buyer_login",{
+					error: "User does not exist"
+				})
+			}
 
-			if(doc) {
+			if(doc != null && doc.username == field.username && decrypt(doc.password) == decrypt(field.password)) {
 				req.session.loggedin = true;
 				req.session.username = field.username;
 				req.session.usertype = "buyer";
@@ -55,7 +64,7 @@ function buyer_login(req,res){
 			}
 			else{
 				res.render("buyer_login",{
-					error: "user doesnot exist"
+					error: "User does not exist"
 				})
 			}
 		})
@@ -68,25 +77,30 @@ function seller_signup(req,res){
 
 	const form = formidable()
 
-	form.parse(req,(err,field,files)=>{
+	form.parse(req,(err,field,files) =>{
 		if(err){
-			next(err);
-			return 
+			next(err)
+			return
 		}
 
-		Seller.findById({_id: field.username}, (err,doc)=>{
+		User.findById({_id: field.username}, (err,doc)=>{
 
 			if(err) console.log(err);
 
-			if(doc) res.render("seller_signup", {error: "account already exists"})
+			if(doc) res.render("seller_signup",{
+				error: "Account already exists"
+			})
 
 			else{
 				const seller = new Seller({
 					_id: field.username,
+					name: field.name,
+					username: field.username,
 					mobile: field.mobile,
 					email: field.email,
-					address: field.address,
-				});
+					password: encrypt(field.password),
+					profileType: 2
+				})
 
 				seller
 					.save()
@@ -94,9 +108,9 @@ function seller_signup(req,res){
 						req.session.loggedin = true;
 						req.session.username = field.username;
 						req.session.usertype = "seller";
-						console.log("data Saved")
-						let redirect_path = "/d/seller/" + field.username;
-						res.redirect(redirect_path)
+						console.log("data Saved ")
+						let redirect_path = "/d/seller/"+field.username;
+						res.redirect(redirect_path);
 					})
 					.catch(err => console.log(err))
 			}
@@ -125,10 +139,13 @@ function buyer_signup(req,res){
 
 			else{
 				const buyer = new User({
-					_id: field.username,
+					_id:field.username,
+					name: field.name,
+					username: field.username,
 					mobile: field.mobile,
 					email: field.email,
-					address: field.address
+					password:  encrypt(field.password),
+					profileType: 1
 				})
 
 				buyer
@@ -147,6 +164,7 @@ function buyer_signup(req,res){
 
 	})
 }
+
 
 function logout(req,res){
 	req.session.loggedin = false;
