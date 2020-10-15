@@ -83,7 +83,7 @@ function seller_signup(req,res){
 			})
 
 			else{
-				const seller = new User({
+				const seller = new Seller({
 					_id: field.username,
 					name: field.name,
 					username: field.username,
