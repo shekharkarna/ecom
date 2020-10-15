@@ -15,9 +15,13 @@ function seller_login(req,res){
 		}
 
 		Seller.findById({_id:field.username}, (err,doc)=>{
-			if(err) console.log(err)
+			if(err) {
+				res.render("buyer_login",{
+					error: "User does not exist"
+				})
+			}
 
-			if(doc){
+			if(doc != null && decrypt(doc.password) == decrypt(field.password)){
 				req.session.loggedin = true;
 				req.session.username = field.username;
 				req.session.usertype = "seller";
@@ -26,7 +30,7 @@ function seller_login(req,res){
 			}
 			else{
 				res.render("seller_login",{
-					error: "user doesnot exist"
+					error: "User does not exist"
 				})
 			}
 		})
@@ -50,7 +54,7 @@ function buyer_login(req,res){
 				})
 			}
 
-			if(doc != null && doc.username == field.username && doc.password == field.password) {
+			if(doc != null && doc.username == field.username && decrypt(doc.password) == decrypt(field.password)) {
 				req.session.loggedin = true;
 				req.session.username = field.username;
 				req.session.usertype = "buyer";
@@ -60,7 +64,7 @@ function buyer_login(req,res){
 			}
 			else{
 				res.render("buyer_login",{
-					error: "User doesnot exist"
+					error: "User does not exist"
 				})
 			}
 		})
