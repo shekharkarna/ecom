@@ -21,7 +21,7 @@ function seller_login(req,res){
 				})
 			}
 
-			if(doc != null && decrypt(doc.password) == decrypt(field.password)){
+			if(doc != null && decrypt(doc.password) == field.password){
 				req.session.loggedin = true;
 				req.session.username = field.username;
 				req.session.usertype = "seller";
@@ -54,7 +54,7 @@ function buyer_login(req,res){
 				})
 			}
 
-			if(doc != null && doc.username == field.username && decrypt(doc.password) == decrypt(field.password)) {
+			if(doc != null && doc.username == field.username && decrypt(doc.password) == field.password) {
 				req.session.loggedin = true;
 				req.session.username = field.username;
 				req.session.usertype = "buyer";
@@ -83,7 +83,7 @@ function seller_signup(req,res){
 			return
 		}
 
-		User.findById({_id: field.username}, (err,doc)=>{
+		Seller.findById({_id: field.username}, (err,doc)=>{
 
 			if(err) console.log(err);
 
