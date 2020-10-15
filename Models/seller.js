@@ -8,7 +8,7 @@ var Seller = new Schema({
 	mobile: Number,
 	email: String,
 	address: String,
-	password: String,
+	password: Object,
 	profileType: Number,
 	products: String,
 });

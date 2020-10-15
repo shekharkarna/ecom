@@ -1,6 +1,7 @@
 const formidable = require("formidable");
 const User = require("../Models/user");
 const Seller = require("../Models/seller");
+const { encrypt, decrypt } = require('./api/crypto');
 
 
 function seller_login(req,res){
@@ -41,11 +42,15 @@ function buyer_login(req,res){
 			next(err);
 			return;
 		}
-
+		
 		User.findById({_id:field.username}, (err,doc) => {
-			if(err) console.log(err);
+			if(err) {
+				res.render("buyer_login",{
+					error: "User does not exist"
+				})
+			}
 
-			if(doc) {
+			if(doc != null && doc.username == field.username && doc.password == field.password) {
 				req.session.loggedin = true;
 				req.session.username = field.username;
 				req.session.usertype = "buyer";
@@ -55,7 +60,7 @@ function buyer_login(req,res){
 			}
 			else{
 				res.render("buyer_login",{
-					error: "user doesnot exist"
+					error: "User doesnot exist"
 				})
 			}
 		})
@@ -89,7 +94,7 @@ function seller_signup(req,res){
 					username: field.username,
 					mobile: field.mobile,
 					email: field.email,
-					password: field.password,
+					password: encrypt(field.password),
 					profileType: 2
 				})
 
@@ -135,7 +140,7 @@ function buyer_signup(req,res){
 					username: field.username,
 					mobile: field.mobile,
 					email: field.email,
-					password: field.password,
+					password:  encrypt(field.password),
 					profileType: 1
 				})
 
