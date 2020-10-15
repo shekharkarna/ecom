@@ -68,25 +68,30 @@ function seller_signup(req,res){
 
 	const form = formidable()
 
-	form.parse(req,(err,field,files)=>{
+	form.parse(req,(err,field,files) =>{
 		if(err){
-			next(err);
-			return 
+			next(err)
+			return
 		}
 
-		Seller.findById({_id: field.username}, (err,doc)=>{
+		User.findById({_id: field.username}, (err,doc)=>{
 
 			if(err) console.log(err);
 
-			if(doc) res.render("seller_signup", {error: "account already exists"})
+			if(doc) res.render("seller_signup",{
+				error: "Account already exists"
+			})
 
 			else{
-				const seller = new Seller({
+				const seller = new User({
 					_id: field.username,
+					name: field.name,
+					username: field.username,
 					mobile: field.mobile,
 					email: field.email,
-					address: field.address,
-				});
+					password: field.password,
+					profileType: 2
+				})
 
 				seller
 					.save()
@@ -94,9 +99,9 @@ function seller_signup(req,res){
 						req.session.loggedin = true;
 						req.session.username = field.username;
 						req.session.usertype = "seller";
-						console.log("data Saved")
-						let redirect_path = "/d/seller/" + field.username;
-						res.redirect(redirect_path)
+						console.log("data Saved ")
+						let redirect_path = "/d/seller/"+field.username;
+						res.redirect(redirect_path);
 					})
 					.catch(err => console.log(err))
 			}
@@ -125,10 +130,13 @@ function buyer_signup(req,res){
 
 			else{
 				const buyer = new User({
-					_id: field.username,
+					_id:field.username,
+					name: field.name,
+					username: field.username,
 					mobile: field.mobile,
 					email: field.email,
-					address: field.address
+					password: field.password,
+					profileType: 1
 				})
 
 				buyer
@@ -147,6 +155,7 @@ function buyer_signup(req,res){
 
 	})
 }
+
 
 function logout(req,res){
 	req.session.loggedin = false;

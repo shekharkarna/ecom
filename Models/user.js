@@ -3,9 +3,14 @@ var Schema = mongoose.Schema;
 
 var User = new Schema({
 	_id: String,
-	mobile: String,
+	name: String,
+	username: String,
+	mobile: Number,
 	email: String,
-	address: String
+	address: String,
+	password: String,
+	profileType: Number,
+	products: String,
 });
 
 module.exports = mongoose.model("user",User);
