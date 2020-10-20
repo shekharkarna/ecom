@@ -16,7 +16,7 @@ function add(req,res){
 			res.redirect("/products/add");
 		}
 		else{
-			res.render("add_products");
+			res.render("add-product");
 		}
 	});
 	
