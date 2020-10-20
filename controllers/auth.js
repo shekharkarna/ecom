@@ -16,12 +16,12 @@ function seller_login(req,res){
 
 		Seller.findById({_id:field.username}, (err,doc)=>{
 			if(err) {
-				res.render("buyer_login",{
-					error: "User does not exist"
+				res.render("seller_login",{
+					error: "Please enter valid username and password."
 				})
 			}
 
-			if(doc != null && decrypt(doc.password) == field.password){
+			if(doc != null && doc.username == field.username && decrypt(doc.password) == field.password && doc.profileType == 2){
 				req.session.loggedin = true;
 				req.session.username = field.username;
 				req.session.usertype = "seller";
@@ -30,7 +30,7 @@ function seller_login(req,res){
 			}
 			else{
 				res.render("seller_login",{
-					error: "User does not exist"
+					error: "Please enter valid username and password."
 				})
 			}
 		})
@@ -50,11 +50,11 @@ function buyer_login(req,res){
 		User.findById({_id:field.username}, (err,doc) => {
 			if(err) {
 				res.render("buyer_login",{
-					error: "User does not exist"
+					error: "Please enter valid username and password."
 				})
 			}
 
-			if(doc != null && doc.username == field.username && decrypt(doc.password) == field.password) {
+			if(doc != null && doc.username == field.username && decrypt(doc.password) == field.password && doc.profileType == 1) {
 				req.session.loggedin = true;
 				req.session.username = field.username;
 				req.session.usertype = "buyer";
@@ -64,7 +64,7 @@ function buyer_login(req,res){
 			}
 			else{
 				res.render("buyer_login",{
-					error: "User does not exist"
+					error: "Please enter valid username and password."
 				})
 			}
 		})

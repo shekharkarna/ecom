@@ -19,3 +19,10 @@ a{
 #signup_modal_div{
 	display: none;
 }
+
+.avatar {
+	vertical-align: middle;
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+  }

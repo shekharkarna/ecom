@@ -8,7 +8,7 @@ routes.get("/add", (req,res)=>{
 		return ;
 	}
 
-	res.render("add_products")
+	res.render("add-product")
 });
 
 routes.post("/add",product.add );
