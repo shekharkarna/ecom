@@ -46,7 +46,6 @@ function buyer_login(req,res){
 			next(err);
 			return;
 		}
-		console.log(field);
 		
 		User.findById({_id:field.username}, (err,doc) => {
 			if(err) {
@@ -55,11 +54,9 @@ function buyer_login(req,res){
 				})
 			}
 
-<<<<<<< HEAD
-			if(doc != null && doc.username == field.username && decrypt(doc.password) == field.password) {
-=======
+
 			if(doc != null && doc.username == field.username && decrypt(doc.password) == field.password && doc.profileType == 1) {
->>>>>>> origin/feature/E-Com
+
 				req.session.loggedin = true;
 				req.session.username = field.username;
 				req.session.usertype = "buyer";
