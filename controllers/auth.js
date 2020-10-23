@@ -1,169 +1,115 @@
 const formidable = require("formidable");
-const User = require("../Models/user");
-const Seller = require("../Models/seller");
-const { encrypt, decrypt } = require('./api/crypto');
+const users = require("./api/users")
 
-
-function seller_login(req,res){
+async function seller_login(req,res){
 
 	const form = formidable()
 
-	form.parse(req,(err,field,files)=>{
+	form.parse(req,async function(err,field,files){
 		if(err){
 			next(err)
 			return 
 		}
 
-		Seller.findById({_id:field.username}, (err,doc)=>{
-			if(err) {
-				res.render("seller_login",{
-					error: "Please enter valid username and password."
-				})
-			}
+		var result = await users.verifySeller(field.username, field.password)
 
-			if(doc != null && doc.username == field.username && decrypt(doc.password) == field.password && doc.profileType == 2){
-				req.session.loggedin = true;
-				req.session.username = field.username;
-				req.session.usertype = "seller";
-				let redirect_path = "/d/seller/"+field.username;
-				res.redirect(redirect_path)
-			}
-			else{
-				res.render("seller_login",{
-					error: "Please enter valid username and password."
-				})
-			}
-		})
+		if(result){
+			req.session.buyer_login = true;
+			req.session.username = field.username;
+			req.session.usertype = "seller";
+			let redirect_path = "/d/seller/"+field.username;
+			res.redirect(redirect_path)
+		}
+		else{
+			res.render("seller_login",{
+				error: "Please enter valid username and password."
+			})
+		}
 	})
 }
 
-function buyer_login(req,res){
+async function buyer_login(req,res){
 
 	const form = formidable()
 
-	form.parse(req,(err,field,files)=>{
+	form.parse(req,async function(err,field,files){
 		if(err){
 			next(err);
 			return;
 		}
 		
-		User.findById({_id:field.username}, (err,doc) => {
-			if(err) {
-				res.render("buyer_login",{
-					error: "Please enter valid username and password."
-				})
-			}
+		var result = await users.verifyBuyer(field.username, field.password)
+		
+		if(result){
+			req.session.loggedin = true;
+			req.session.username = field.username;
+			req.session.usertype = "buyer";
+			let redirect_path = "/d/buyer/"+field.username;
+			res.redirect(redirect_path);
 
+		}
+		else{
+			res.render("buyer_login", {
+				error: "Please enter valid username and password."
+			})
+		}
 
-			if(doc != null && doc.username == field.username && decrypt(doc.password) == field.password && doc.profileType == 1) {
-
-				req.session.loggedin = true;
-				req.session.username = field.username;
-				req.session.usertype = "buyer";
-
-				let redirect_path = "/d/buyer/"+field.username;
-				res.redirect(redirect_path)
-			}
-			else{
-				res.render("buyer_login",{
-					error: "Please enter valid username and password."
-				})
-			}
-		})
 	})
-
 
 }
 
-function seller_signup(req,res){
+async function seller_signup(req,res){
 
 	const form = formidable()
 
-	form.parse(req,(err,field,files) =>{
+	form.parse(req,async function(err,field,files){
 		if(err){
 			next(err)
 			return
 		}
 
-		Seller.findById({_id: field.username}, (err,doc)=>{
+		var result = await users.addSeller(field.username,field.name, field.mobile,field.email,field.password)
 
-			if(err) console.log(err);
-
-			if(doc) res.render("seller_signup",{
-				error: "Account already exists"
-			})
-
-			else{
-				const seller = new Seller({
-					_id: field.username,
-					name: field.name,
-					username: field.username,
-					mobile: field.mobile,
-					email: field.email,
-					password: encrypt(field.password),
-					profileType: 2
-				})
-
-				seller
-					.save()
-					.then(result =>{
-						req.session.loggedin = true;
-						req.session.username = field.username;
-						req.session.usertype = "seller";
-						console.log("data Saved ")
-						let redirect_path = "/d/seller/"+field.username;
-						res.redirect(redirect_path);
-					})
-					.catch(err => console.log(err))
-			}
-		})
+		if(result.insert){
+			req.session.loggedin = true;
+			req.session.username = field.username;
+			req.session.usertype = "seller";
+			console.log("data saved ")
+			let redirect_path = "/d/seller/"+field.username;
+			res.redirect(redirect_path);
+		}
+		else{
+			console.log("failed")
+			res.redirect("back")
+		}
 
 	})
 }
 
-function buyer_signup(req,res){
+async function buyer_signup(req,res){
 
 	const form = formidable()
 
-	form.parse(req,(err,field,files) =>{
+	form.parse(req,async function(err,field,files){
 		if(err){
 			next(err)
 			return
 		}
 
-		User.findById({_id: field.username}, (err,doc)=>{
+		var result = await users.addBuyer(field.username,field.name, field.mobile,field.email,field.password)
 
-			if(err) console.log(err);
-
-			if(doc) res.render("buyer_signup",{
-				error: "user already exists"
-			})
-
-			else{
-				const buyer = new User({
-					_id:field.username,
-					name: field.name,
-					username: field.username,
-					mobile: field.mobile,
-					email: field.email,
-					password:  encrypt(field.password),
-					profileType: 1
-				})
-
-				buyer
-					.save()
-					.then(result =>{
-						req.session.loggedin = true;
-						req.session.username = field.username;
-						req.session.usertype = "buyer";
-						console.log("data saved ")
-						let redirect_path = "/d/buyer/"+field.username;
-						res.redirect(redirect_path);
-					})
-					.catch(err => console.log(err))
-			}
-		})
-
+		if(result.insert){
+			req.session.loggedin = true;
+			req.session.username = field.username;
+			req.session.usertype = "buyer";
+			console.log("data saved ")
+			let redirect_path = "/d/buyer/"+field.username;
+			res.redirect(redirect_path);
+		}
+		else{
+			console.log("failed")
+			res.redirect("back")
+		}
 	})
 }
 

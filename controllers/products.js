@@ -35,7 +35,7 @@ async function fill_dashboard(req,res){
 	}
 	else{
 
-		res.send("not logged in ")
+		res.redirect("/")
 	}
 }
 

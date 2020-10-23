@@ -13,4 +13,9 @@ routes.use("/auth",auth);
 
 routes.use("/products", products);
 
+var test = "single-product"
+routes.get("/test",(req,res)=>{
+	res.render(test)
+})
+
 module.exports = routes;
