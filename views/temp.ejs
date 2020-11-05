@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <%- include('partials/head') %>
+    <link rel="stylesheet" type="text/css" href="/css/product_list.css">
+</head>
+
+<body>
+
+    <% if (loggedin) { %>
+      <%- include("partials/loggedInNav") %>
+    <% } else{ %>
+      <%- include('partials/nav') %>
+    <% } %>
+    
+    <!-- product list part start-->
+    <section class="product_list">
+        <div class="container-fluid">
+            <div class="row">
+
+                <div class="col-md-3 filter test">
+                    filter to apply here 
+                </div>
+
+                <div class="col-md-8 test" style="margin-left: 10px;">
+                    <div class="show-products"> 
+                        <% items.forEach(item =>{ %>
+
+                        <div class="d-flex justify-content-between p-3" style="background-color: #eee; margin-top: 10px">
+                            <div class="image">
+                                <img src="<%= item.images  %>" class="product-image">
+                            </div>
+
+                            <div id="mid">
+                                <h3><%= item.name %></h3>
+                            </div>
+
+                            <div>
+                                <h4>Rs. <%= item.price %></h4>
+                            </div>
+                        </div>  
+
+                        <% }) %> 
+                    </div>
+                    <p id="pagination-variable" style="visibility: hidden;">1</p>
+                    <div class="">
+                        <nav aria-label='Page navigation '>
+
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item disabled" id="prev"><a class="page-link" href="#">Previous</a></li>
+                                <li class="page-item active" id="1"><a class="page-link" href="#">1</a></li>
+                                <% for (var i=2; i<= count; i++){ %>
+                                <li class="page-item" id="<%= i %>"><a class="page-link" href="#"><%= i %></a></li>
+                                <% } %>
+                                <li class="page-item" id="next"><a class="page-link" href="#">Next</a></li>
+
+                            </ul>
+
+                        </nav>
+                    </div>
+
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+    
+
+    <%- include ('partials/footer') %>
+    <%- include ('partials/jsplugin') %>
+
+    <script>
+    
+        $(document).ready(function(){
+        // console.log("ready");
+        // let n = 2;
+        // getdata(console.log, n)
+        $(".page-link").click(function(){
+
+            let x = $(this).html();
+            let y = $("#pagination-variable").html();
+            switch(x){
+                case ("Previous"):
+                {prevhandler(y);break;}
+                case ("Next"):
+                {nexthandler(y); break}
+                default:
+                {defaulthandler(x)}
+            }
+
+        })
+    })
+
+        function prevhandler(y){
+            y = parseInt(y);
+            if(y<=1) return;
+            $("#next").removeClass("disabled");
+            return defaulthandler(y-1)
+        }
+
+        function nexthandler(y){
+            y = parseInt(y)
+            if(y>= "<%= count %>") return;
+            $("#prev").removeClass("disabled")
+            return defaulthandler(y+1)
+
+        }
+
+        function defaulthandler(x){
+
+            $(`#${x}`).addClass("active")
+            let previ = $("#pagination-variable").html();
+            $(`#${previ}`).removeClass(" active")
+            $("#pagination-variable").html(x);
+
+            if(x>1){
+                $("#prev").removeClass("disabled")
+            }
+            else{
+                $("#prev").addClass("disabled")
+            }
+            if(x>="<%= count %>"){
+                $("#next").addClass("disabled")
+            }
+            else{
+                $("#next").removeClass("disabled")
+            }
+
+            getdata(showhandler,x);
+
+        }
+
+        function getdata(cb,n){
+            let url = $(location).attr("href")
+            console.log(url.indexOf("?"))
+            console.log("here")
+            url = `${url}&page=${n}`
+            console.log(url)
+            $.get(url,function(data,status){
+                cb(data)
+            })
+        }
+
+        function showhandler(data){
+            $(".show-products").empty();
+            let result = "";
+            for(let i=0; i<data.length; i++){
+
+                result += `<div class="d-flex justify-content-between p-3" style="background-color: #eee; margin-top: 10px">
+                <div class="image">
+                <img src="${data[i].images}" class="product-image">
+                </div>
+
+                <div id="mid">
+                <h3>${data[i].name}</h3>
+                </div>
+
+                <div>
+                <h4>Rs. ${data[i].price}</h4>
+                </div>
+                </div> `
+            }
+            $(".show-products").append(result)
+        }
+    </script>
+</body>
+
+</html>

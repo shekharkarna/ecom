@@ -7,10 +7,11 @@ var Products = new Schema({
 	images: String,
 	category: String,
 	price: Number,
-	rating: Number,
-	comments: JSON,
+	rating: {type: Number, default: 0},
+	comments: Array,
 	description: String,
 	quantity: Number,
+	date: {type: Date, default: "2020-02-01"},
 	seller: String,
 });
 

@@ -1,30 +1,27 @@
 const Products = require("../../Models/products");
 
-function add_product(req,field){
+async function add_product(seller_name,name,brand,images,category,price,description,quantity){
 
 	const newproduct = new Products({
-			name: field.item_name,
-			brand: field.brand,
-			images: field.image,
-			category: field.category,
-			price: parseInt(field.price),
-			rating: 0,
-			description: field.description,
-			quantity: parseInt(field.quantity),
-			seller: req.session.username,
+			name: name,
+			brand: brand,
+			images: image,
+			category: category,
+			price: parseInt(price),
+			description: description,
+			quantity: parseInt(quantity),
+			seller: seller_name,
+			date: new Date(),
 
 	});
 
-	newproduct
-		.save()
-		.then(result =>{
-			console.log("product added");
-			return true ;
-		})
-		.catch(err =>{
-			console.log(err);
-			return false;
-		})
+	try{
+		await newproduct.save()
+		console.log("product added");
+		return true
+	}catch(err){
+		console.log(err);
+	}
 };
 
 module.exports = add_product;

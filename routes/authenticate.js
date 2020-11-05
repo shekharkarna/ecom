@@ -1,14 +1,6 @@
 const routes = require("express").Router();
 const verify = require("../controllers/auth");
 
-//to handle
-// /seller_login
-// /buyer_login
-
-// /seller_signup
-// / buyer_signup
-
-//LOGIN ROUTES
 routes.get("/seller_login",(req,res)=>{
 
 	res.render("seller_login",{

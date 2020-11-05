@@ -14,7 +14,7 @@ async function seller_login(req,res){
 		var result = await users.verifySeller(field.username, field.password)
 
 		if(result){
-			req.session.buyer_login = true;
+			req.session.loggedin = true;
 			req.session.username = field.username;
 			req.session.usertype = "seller";
 			let redirect_path = "/d/seller/"+field.username;
@@ -22,7 +22,7 @@ async function seller_login(req,res){
 		}
 		else{
 			res.render("seller_login",{
-				error: "Please enter valid username and password."
+				error: "User already exists"
 			})
 		}
 	})
@@ -44,7 +44,7 @@ async function buyer_login(req,res){
 			req.session.loggedin = true;
 			req.session.username = field.username;
 			req.session.usertype = "buyer";
-			let redirect_path = "/d/buyer/"+field.username;
+			let redirect_path = "/d/buyer";
 			res.redirect(redirect_path);
 
 		}
@@ -79,8 +79,9 @@ async function seller_signup(req,res){
 			res.redirect(redirect_path);
 		}
 		else{
-			console.log("failed")
-			res.redirect("back")
+			res.render("seller_signup",{
+				error: "Please enter valid username and password."
+			})
 		}
 
 	})
@@ -117,7 +118,7 @@ async function buyer_signup(req,res){
 function logout(req,res){
 	req.session.loggedin = false;
 	req.session.username = null;
-	res.redirect("/");
+	res.redirect("back");
 
 }
 

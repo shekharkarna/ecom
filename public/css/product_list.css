@@ -1,0 +1,17 @@
+.avatar {
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.product-image{
+    padding: 10px;
+    height: 200px;
+    width: 200px;
+}
+
+#mid{
+    width: 80%;
+    padding-left: 40px;
+}

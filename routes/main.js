@@ -13,9 +13,12 @@ routes.use("/auth",auth);
 
 routes.use("/products", products);
 
-var test = "single-product"
+var test = "product_list"
 routes.get("/test",(req,res)=>{
-	res.render(test)
+	console.log(req.session.loggedin)
+	res.render(test,{
+		items: "one"
+	})
 })
 
 module.exports = routes;

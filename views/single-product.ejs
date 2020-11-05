@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="zxx">
-
-
 <head>
     <%- include('partials/head') %>
 
 </head>
 <body>
-    
-    <%- include('partials/nav_header') %>
+
+    <% if (loggedin) { %>
+      <%- include("partials/loggedInNav") %>
+    <% } else{ %>
+      <%- include('partials/nav') %>
+    <% } %>
 
     <!-- slider Area Start-->
     <div class="slider-area ">

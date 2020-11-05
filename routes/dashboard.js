@@ -4,9 +4,7 @@ const api = require("../controllers/api/main");
 
 routes.get("/",(req,res)=>{
 	let user = req.session.username;
-	//console.log(req.session)
-	let redirect_path = "/d/"+req.session.usertype+"/"+user;
-	//
+	let redirect_path = "/d/"+req.session.usertype;
 	res.redirect(redirect_path);
 });
 
@@ -22,7 +20,7 @@ routes.get("/seller/:user",(req,res)=>{
 		items
 			.then(result =>{
 				let user = req.params.user;
-				res.render("admin_index",{
+				res.render("add_products",{
 					name: user, items: result
 				})
 			})
@@ -57,6 +55,7 @@ routes.get("/adminproducts/",(req,res)=>{
 
 })
 
-routes.get("/buyer/:user", product.fill_dashboard);
+routes.get("/buyer", product.fill_dashboard);
+routes.get("/page/:page",product.fill_product_nth);
 
 module.exports = routes;

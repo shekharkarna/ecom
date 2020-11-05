@@ -6,7 +6,11 @@
 
    <body>
        
-    <%- include ("partials/nav_header") %>
+    <% if (loggedin) { %>
+      <%- include("partials/loggedInNav") %>
+    <% } else{ %>
+      <%- include('partials/nav') %>
+    <% } %>
 
     <main>
 
