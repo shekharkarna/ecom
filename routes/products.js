@@ -1,5 +1,6 @@
 const routes = require("express").Router();
 const product = require("../controllers/products");
+const testapi = require("../controllers/api/fetch_product")
 
 routes.get("/add", (req,res)=>{
 	if(req.session.usertype !== "seller") {
@@ -14,5 +15,6 @@ routes.post("/add",product.add );
 routes.get("/type/:type", product.getProductByCategory)
 
 routes.get("/id/:_id", product.get_details);
+
 
 module.exports = routes;

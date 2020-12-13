@@ -31,33 +31,23 @@ async function add(req,res){
 };
 
 async function fill_dashboard(req,res){
-	console.log(req.query);
-	if(true || req.session.loggedin ==true && req.session.username==req.params.user){
-		let user = req.params.user;
-		var x = await Products.find({}).limit(3);
-		var count = await Products.find({}).countDocuments();
-		count = Math.ceil(count/3);
-		
-		res.render("temp",{
-			name: "shekhar",
-			items: x,
-			count: count,
-		})
-	}
-	else{
-		res.redirect("/")
-	}
-}
 
-async function fill_product_nth(req,res) {
-	const page = req.params.page;
-	const limit = 3;
-	let user = await Products.find({})
-								.limit(limit*1)
+	console.log(req.url);
+
+	let page = req.query.page;
+	console.log(page);
+	let limit = 4;
+	var items = await Products.find({})
+								.limit(limit)
 								.skip((page-1)*limit)
 								.exec();
-	res.json(user);
 
+	var count = await Products.find({}).countDocuments();
+	res.render("product_list",{
+		url : req.url,
+		items: items,
+		count: Math.ceil(count/4),
+	})
 }
 
 async function get_details(req,res){
@@ -79,6 +69,22 @@ async function getProductByCategory(req,res) {
 	})
 }
 
+async function fill_homepage(req,res){
+
+	var x = await Products.find().limit(6)
+
+	console.log (x.length)
+
+	for(var i=0; i<x.length; i++){
+		console.log(x[i])
+	}
+
+	res.render("index", {
+		items: x
+	})
+}
+
+
 
 module.exports = {
 	add,
@@ -86,4 +92,5 @@ module.exports = {
 	get_details,
 	fill_product_nth,
 	getProductByCategory,
+	fill_homepage,
 };
